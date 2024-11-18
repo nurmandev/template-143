@@ -13,7 +13,7 @@ import { LoadFonts } from '../lib/LoadFonts';
 import { getCSSVariables } from '../lib/helpers';
 import { Colors, Fonts } from '../types';
 import { BackgroundProps } from '../backgrounds';
-import { WideSlidePresentation } from '../transitions/WideSlidePresentation';
+import { customSplitTransition } from '../transitions/SplitTransition';
 
 export const MainSchema = z.object({
   audioVolume: z.number(),
@@ -83,35 +83,35 @@ const Main: React.FC<MainProps> = ({
             <Scene1 {...scene1Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={WideSlidePresentation({ direction: 'from-right' })}
+            presentation={customSplitTransition({})}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene2Duration}>
             <Scene2 {...scene2Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={WideSlidePresentation({ direction: 'from-left' })}
+            presentation={customSplitTransition({})}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene3Duration}>
             <Scene3 {...scene3Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={WideSlidePresentation({ direction: 'from-right' })}
+            presentation={customSplitTransition({})}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene4Duration}>
             <Scene4 {...scene4Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={WideSlidePresentation({ direction: 'from-left' })}
+            presentation={customSplitTransition({})}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene5Duration}>
             <Scene5 {...scene5Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={WideSlidePresentation({ direction: 'from-right' })}
+            presentation={customSplitTransition({})}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene6Duration}>
