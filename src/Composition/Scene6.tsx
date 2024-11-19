@@ -55,24 +55,24 @@ const Scene6: React.FC<Scene6Props> = (props) => {
         x={WIDTH * 0.5}
         y={HEIGHT * 0.5}
         direction="bottom"
-        size={HEIGHT * 0.8}
+        size={HEIGHT * 0.7}
         delay={5}
         opacity={0.6}
       />
       <DiamondImage
         x={WIDTH * 0.9}
         y={HEIGHT * 0.2}
-        direction="top"
-        size={HEIGHT * 0.5}
-        delay={20}
+        direction="-45deg"
+        size={HEIGHT * 0.45}
+        delay={5}
         opacity={0.6}
       />
       <DiamondImage
         x={WIDTH * 0.1}
         y={HEIGHT * 0.8}
-        direction="bottom"
-        size={HEIGHT * 0.5}
-        delay={20}
+        direction="45deg"
+        size={HEIGHT * 0.45}
+        delay={5}
         opacity={0.6}
       />
       <DiamondScaleUp x={WIDTH * 0.29} y={HEIGHT * 0.05} size={200} delay={15} opacity={0.6} />
