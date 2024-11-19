@@ -5,7 +5,7 @@ interface DiamondImageProps {
   img?: string;
   x: number; // Final horizontal position
   y: number; // Final vertical position
-  direction?: 'top' | 'bottom' | 'left' | 'right' | '45deg' | '135deg' | '-45deg' | '-135deg'; // Direction to animate from
+  direction?: 'top' | 'bottom' | 'left' | 'right'; // Direction to animate from
   size?: number; // Size of the diamond
   delay?: number; // Delay for animation
   opacity?: number;
@@ -33,22 +33,6 @@ const DiamondImage: React.FC<DiamondImageProps> = ({
   let initialY = 0;
 
   switch (direction) {
-    case '45deg':
-      initialY = -size;
-      initialX = -size;
-      break;
-    case '-45deg':
-      initialY = -size;
-      initialX = size * 2;
-      break;
-    case '135deg':
-      initialY = -size;
-      initialX = size * 2;
-      break;
-    case '-135deg':
-      initialY = -size;
-      initialX = -size * 2;
-      break;
     case 'top':
       initialY = -size;
       initialX = x - size / 2;
@@ -127,4 +111,3 @@ const DiamondImage: React.FC<DiamondImageProps> = ({
 };
 
 export default DiamondImage;
- 

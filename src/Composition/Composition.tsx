@@ -83,21 +83,21 @@ const Main: React.FC<MainProps> = ({
             <Scene1 {...scene1Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({ direction: 'right' })}
+            presentation={customSplitTransition({ direction: 'diagonal' })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene2Duration}>
             <Scene2 {...scene2Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({ direction: 'left' })}
+            presentation={customSplitTransition({ direction: 'inverse-diagonal' })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene3Duration}>
             <Scene3 {...scene3Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({ direction: 'down' })}
+            presentation={customSplitTransition({ direction: 'diagonal' })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene4Duration}>

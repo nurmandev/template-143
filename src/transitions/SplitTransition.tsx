@@ -7,7 +7,7 @@ import type {
 import { HEIGHT, WIDTH } from '../lib/consts';
 
 type SplitTransitionProps = {
-  direction: 'up' | 'down' | 'left' | 'right';
+  direction: 'up' | 'down' | 'left' | 'right' | 'diagonal' | 'inverse-diagonal';
 };
 
 const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTransitionProps>> = ({
@@ -42,6 +42,10 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
         return { translateX: -width, translateY: finalY };
       case 'right':
         return { translateX: width, translateY: finalY };
+      case 'diagonal':
+        return { translateX: width, translateY: height };
+      case 'inverse-diagonal':
+        return { translateX: -width, translateY: height };
       default:
         return { translateX: finalX, translateY: finalY };
     }
@@ -58,9 +62,11 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
     };
   }, []);
 
-  const renderMirrors = (slice: { finalX: number; finalY: number }, x: number, y: number) => {
+  const renderMirrors = (direction: string, x: number, y: number) => {
     // Compute mirrored positions
-    var mirrorX, mirrorY, scale;
+    let mirrorX = 0,
+      mirrorY = 0,
+      scale = '';
 
     switch (direction) {
       case 'left':
@@ -83,7 +89,17 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
         mirrorY = height + y;
         scale = 'scaleY(-1)';
         break;
+      case 'diagonal':
+        mirrorX = width + x;
+        mirrorY = height + y;
+        scale = 'scale(-1, -1)';
+        break;
 
+      case 'inverse-diagonal':
+        mirrorX = -width + x;
+        mirrorY = height + y;
+        scale = 'scale(-1, -1)';
+        break;
       default:
         mirrorX = -width + x;
         mirrorY = y;
@@ -169,10 +185,25 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
                   }}
                 >
                   {children}
-                  {/* Mirrored content */}
                 </div>
               ) : null}
-              {exitingChildren && renderMirrors(slice, -translateX, -translateY)}
+              {/* Mirrored content */}
+              {exitingChildren && renderMirrors(direction, -translateX, -translateY)}
+              {direction === 'diagonal' &&
+                exitingChildren &&
+                renderMirrors('down', -translateX, -translateY)}
+
+              {direction === 'diagonal' &&
+                exitingChildren &&
+                renderMirrors('right', -translateX, -translateY)}
+
+              {direction === 'inverse-diagonal' &&
+                exitingChildren &&
+                renderMirrors('down', -translateX, -translateY)}
+
+              {direction === 'inverse-diagonal' &&
+                exitingChildren &&
+                renderMirrors('left', -translateX, -translateY)}
             </div>
           </React.Fragment>
         );

@@ -18,12 +18,12 @@ type Scene6Props = z.infer<typeof scene6Schema> & { background: BackgroundProps 
 
 const Scene6: React.FC<Scene6Props> = (props) => {
   // we make the text conform to available width, fontFamily, fontWeight, and fontSize and add \n to the text
-  const titleSplit = useTextSplitter({ 
+  const titleSplit = useTextSplitter({
     text: props.title.toUpperCase(),
     fontSize: 60,
     fontWeight: '500',
     letterSpacing: '6px',
-    maxLines: 1, 
+    maxLines: 1,
     maxWidth: 800,
   });
   const subtitleSplit = useTextSplitter({
@@ -58,24 +58,24 @@ const Scene6: React.FC<Scene6Props> = (props) => {
         x={WIDTH * 0.5}
         y={HEIGHT * 0.5}
         direction="bottom"
-        size={HEIGHT * 0.7}
+        size={HEIGHT * 0.8}
         delay={5}
         opacity={0.6}
       />
       <DiamondImage
         x={WIDTH * 0.9}
         y={HEIGHT * 0.2}
-        direction="-45deg"
-        size={HEIGHT * 0.45}
-        delay={5}
+        direction="top"
+        size={HEIGHT * 0.5}
+        delay={20}
         opacity={0.6}
       />
       <DiamondImage
         x={WIDTH * 0.1}
         y={HEIGHT * 0.8}
-        direction="45deg"
-        size={HEIGHT * 0.45}
-        delay={5}
+        direction="bottom"
+        size={HEIGHT * 0.5}
+        delay={20}
         opacity={0.6}
       />
       <DiamondScaleUp x={WIDTH * 0.29} y={HEIGHT * 0.05} size={200} delay={15} opacity={0.6} />
