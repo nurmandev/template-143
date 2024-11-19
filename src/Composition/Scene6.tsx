@@ -18,12 +18,12 @@ type Scene6Props = z.infer<typeof scene6Schema> & { background: BackgroundProps 
 
 const Scene6: React.FC<Scene6Props> = (props) => {
   // we make the text conform to available width, fontFamily, fontWeight, and fontSize and add \n to the text
-  const titleSplit = useTextSplitter({
+  const titleSplit = useTextSplitter({ 
     text: props.title.toUpperCase(),
     fontSize: 60,
     fontWeight: '500',
     letterSpacing: '6px',
-    maxLines: 1,
+    maxLines: 1, 
     maxWidth: 800,
   });
   const subtitleSplit = useTextSplitter({

@@ -67,7 +67,7 @@ const Scene1: React.FC<Scene1Props> = (props) => {
         y={HEIGHT * 0.8}
         direction="45deg"
         size={HEIGHT * 0.45}
-        delay={5}
+        delay={5} 
         opacity={0.6}
       />
 
