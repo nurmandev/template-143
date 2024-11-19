@@ -41,6 +41,9 @@ const Scene6: React.FC<Scene6Props> = (props) => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        width: WIDTH,
+        height: HEIGHT,
+        overflow: 'hidden',
       }}
     >
       <AbsoluteFill>

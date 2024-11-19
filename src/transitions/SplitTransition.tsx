@@ -6,13 +6,17 @@ import type {
 } from '@remotion/transitions';
 import { HEIGHT, WIDTH } from '../lib/consts';
 
-type SplitTransitionProps = {};
+type SplitTransitionProps = {
+  direction: 'up' | 'down' | 'left' | 'right';
+};
 
 const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTransitionProps>> = ({
   children,
   presentationDirection,
   presentationProgress,
+  passedProps,
 }) => {
+  const { direction } = passedProps;
   const width = WIDTH;
   const height = HEIGHT;
 
@@ -21,13 +25,28 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
   const segmentHeight = height / 2;
 
   const gridSlices = [
-    { finalX: 0, finalY: 0 }, // Top-left
-    { finalX: segmentWidth, finalY: 0 }, // Top-right
-    { finalX: 0, finalY: segmentHeight }, // Bottom-left
-    { finalX: segmentWidth, finalY: segmentHeight }, // Bottom-right
+    { finalX: 0, finalY: 0, delay: 0.0 }, // Top-left, no delay
+    { finalX: segmentWidth, finalY: 0, delay: 0.1 }, // Top-right, slight delay
+    { finalX: 0, finalY: segmentHeight, delay: 0.2 }, // Bottom-left, more delay
+    { finalX: segmentWidth, finalY: segmentHeight, delay: 0.3 }, // Bottom-right, maximum delay
   ];
 
-  // Split children into exiting and entering groups
+  // Determine translation direction for exiting children
+  const getExitTranslate = (finalX: number, finalY: number) => {
+    switch (direction) {
+      case 'up':
+        return { translateX: finalX, translateY: -height };
+      case 'down':
+        return { translateX: finalX, translateY: height };
+      case 'left':
+        return { translateX: -width, translateY: finalY };
+      case 'right':
+        return { translateX: width, translateY: finalY };
+      default:
+        return { translateX: finalX, translateY: finalY };
+    }
+  };
+
   const exitingChildren = presentationDirection === 'exiting' && presentationProgress <= 0.5;
   const enteringChildren = presentationDirection === 'entering' && presentationProgress > 0.5;
 
@@ -39,53 +58,123 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
     };
   }, []);
 
+  const renderMirrors = (slice: { finalX: number; finalY: number }, x: number, y: number) => {
+    // Compute mirrored positions
+    var mirrorX, mirrorY, scale;
+
+    switch (direction) {
+      case 'left':
+        mirrorX = -width + x;
+        mirrorY = y;
+        scale = 'scaleX(-1)';
+        break;
+      case 'right':
+        mirrorX = width + x;
+        mirrorY = y;
+        scale = 'scaleX(-1)';
+        break;
+      case 'up':
+        mirrorX = x;
+        mirrorY = -height + y;
+        scale = 'scaleY(-1)';
+        break;
+      case 'down':
+        mirrorX = x;
+        mirrorY = height + y;
+        scale = 'scaleY(-1)';
+        break;
+
+      default:
+        mirrorX = -width + x;
+        mirrorY = y;
+        scale = 'scaleX(-1)';
+        break;
+    }
+
+    return (
+      <div
+        style={{
+          width: segmentWidth,
+          height: segmentHeight,
+          overflow: 'hidden',
+          position: 'absolute',
+          left: 0,
+          top: 0,
+        }}
+      >
+        <div
+          style={{
+            ...style,
+            transform: `translate(${mirrorX}px, ${mirrorY}px) ${scale}`,
+          }}
+        >
+          {children}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <AbsoluteFill>
       {gridSlices.map((slice, index) => {
-        const { finalX, finalY } = slice;
+        const { finalX, finalY, delay } = slice;
 
-        // Animation for entering/exiting
+        // Compute exiting animation
+        const { translateX: exitTranslateX, translateY: exitTranslateY } = getExitTranslate(
+          finalX,
+          finalY
+        );
+
+        const adjustedProgress = Math.max(
+          0,
+          Math.min(1, (presentationProgress - delay) / (1 - delay))
+        );
+
         const translateX = interpolate(
-          presentationProgress,
+          adjustedProgress,
           [0, 1],
-          exitingChildren ? [finalX, width / 2 - finalX] : [width / 2 - finalX, finalX],
+          exitingChildren ? [finalX, exitTranslateX] : [width / 2 - finalX, finalX],
           {
             easing: Easing.inOut(Easing.cubic),
           }
         );
 
         const translateY = interpolate(
-          presentationProgress,
+          adjustedProgress,
           [0, 1],
-          exitingChildren ? [finalY, height / 2 - finalY] : [height / 2 - finalY, finalY],
+          exitingChildren ? [finalY, exitTranslateY] : [height / 2 - finalY, finalY],
           {
             easing: Easing.inOut(Easing.cubic),
           }
         );
 
         return (
-          <div
-            key={index}
-            style={{
-              width: segmentWidth,
-              height: segmentHeight,
-              overflow: 'hidden',
-              position: 'absolute',
-              left: finalX,
-              top: finalY,
-            }}
-          >
-            {exitingChildren || enteringChildren ? (
-              <div
-                style={{
-                  ...style,
-                  transform: `translate(${-translateX}px, ${-translateY}px)`,
-                }}
-              >
-                {children}
-              </div>
-            ) : null}
-          </div>
+          <React.Fragment key={index}>
+            {/* Main content */}
+            <div
+              style={{
+                width: segmentWidth,
+                height: segmentHeight,
+                overflow: 'hidden',
+                position: 'absolute',
+                left: finalX,
+                top: finalY,
+              }}
+            >
+              {exitingChildren || enteringChildren ? (
+                <div
+                  style={{
+                    ...style,
+                    transform: `translate(${-translateX}px, ${-translateY}px)`,
+                  }}
+                >
+                  {children}
+                  {/* Mirrored content */}
+                </div>
+              ) : null}
+              {exitingChildren && renderMirrors(slice, -translateX, -translateY)}
+            </div>
+          </React.Fragment>
         );
       })}
     </AbsoluteFill>

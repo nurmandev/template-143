@@ -28,7 +28,13 @@ const Scene2: React.FC<Scene2Props> = (props) => {
   });
 
   return (
-    <AbsoluteFill>
+    <AbsoluteFill
+      style={{
+        width: WIDTH,
+        height: HEIGHT,
+        overflow: 'hidden',
+      }}
+    >
       <AbsoluteFill>
         <Img src={staticFile('Media_5.jpeg')} />
       </AbsoluteFill>
