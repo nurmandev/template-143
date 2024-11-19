@@ -83,35 +83,35 @@ const Main: React.FC<MainProps> = ({
             <Scene1 {...scene1Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({})}
+            presentation={customSplitTransition({ direction: 'right' })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene2Duration}>
             <Scene2 {...scene2Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({})}
+            presentation={customSplitTransition({ direction: 'left' })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene3Duration}>
             <Scene3 {...scene3Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({})}
+            presentation={customSplitTransition({ direction: 'down' })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene4Duration}>
             <Scene4 {...scene4Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({})}
+            presentation={customSplitTransition({ direction: 'down' })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene5Duration}>
             <Scene5 {...scene5Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({})}
+            presentation={customSplitTransition({ direction: 'left' })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene6Duration}>
