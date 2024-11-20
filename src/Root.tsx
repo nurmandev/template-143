@@ -69,7 +69,7 @@ export const RemotionRoot: React.FC = () => {
             img: staticFile('Media_4.jpg'),
             title: 'A BETTER GEORGIA FOR FAMILIES, BUSINESSES, AND COMMUNITIES',
           },
-          scene6Duration: 180,
+          scene6Duration: 140,
           scene6Props: {
             logo: staticFile('Logo.png'),
             title: 'SUPPORT BURT JONES FOR A BETTER FUTURE',
@@ -141,7 +141,7 @@ export const RemotionRoot: React.FC = () => {
             img: staticFile('Media_4.jpg'),
             title: 'A BETTER GEORGIA FOR FAMILIES, BUSINESSES, AND COMMUNITIES',
           },
-          scene6Duration: 180,
+          scene6Duration: 140,
           scene6Props: {
             logo: staticFile('Logo.png'),
             title: 'SUPPORT BURT JONES FOR A BETTER FUTURE',

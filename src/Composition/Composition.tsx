@@ -14,6 +14,7 @@ import { getCSSVariables } from '../lib/helpers';
 import { Colors, Fonts } from '../types';
 import { BackgroundProps } from '../backgrounds';
 import { customSplitTransition } from '../transitions/SplitTransition';
+import { fade } from '../transitions/FadePresentation';
 
 export const MainSchema = z.object({
   audioVolume: z.number(),
@@ -79,6 +80,11 @@ const Main: React.FC<MainProps> = ({
         {/* change the name of your music file in the public folder to match music.mp3  */}
         <Audio src={staticFile('music.mp3')} volume={audioVolume} />
         <TransitionSeries>
+          <TransitionSeries.Transition
+            presentation={fade()}
+            timing={linearTiming({ durationInFrames: 15 })}
+          />
+
           <TransitionSeries.Sequence durationInFrames={scene1Duration}>
             <Scene1 {...scene1Props} background={background} />
           </TransitionSeries.Sequence>
@@ -134,6 +140,10 @@ const Main: React.FC<MainProps> = ({
           <TransitionSeries.Sequence durationInFrames={scene6Duration}>
             <Scene6 {...scene6Props} background={background} />
           </TransitionSeries.Sequence>
+          <TransitionSeries.Transition
+            presentation={fade({ shouldFadeOutExitingScene: true })}
+            timing={linearTiming({ durationInFrames: 20 })}
+          />
         </TransitionSeries>
       </AbsoluteFill>
     </LoadFonts>
