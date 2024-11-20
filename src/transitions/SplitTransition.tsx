@@ -7,7 +7,16 @@ import type {
 import { HEIGHT, WIDTH } from '../lib/consts';
 
 type SplitTransitionProps = {
-  direction: 'up' | 'down' | 'left' | 'right' | 'diagonal' | 'inverse-diagonal';
+  directions: (
+    | 'up'
+    | 'down'
+    | 'left'
+    | 'right'
+    | 'diagonal'
+    | 'inverse-diagonal'
+    | 'inverse-diagonal-down'
+  )[];
+  randomDelay?: boolean;
 };
 
 const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTransitionProps>> = ({
@@ -16,7 +25,7 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
   presentationProgress,
   passedProps,
 }) => {
-  const { direction } = passedProps;
+  const { directions, randomDelay = true } = passedProps;
   const width = WIDTH;
   const height = HEIGHT;
 
@@ -25,14 +34,24 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
   const segmentHeight = height / 2;
 
   const gridSlices = [
-    { finalX: 0, finalY: 0, delay: 0.0 }, // Top-left, no delay
-    { finalX: segmentWidth, finalY: 0, delay: 0.1 }, // Top-right, slight delay
-    { finalX: 0, finalY: segmentHeight, delay: 0.2 }, // Bottom-left, more delay
-    { finalX: segmentWidth, finalY: segmentHeight, delay: 0.3 }, // Bottom-right, maximum delay
+    { finalX: 0, finalY: 0, delay: randomDelay ? 0.0 : 0.0 }, // Top-left, no delay
+    { finalX: segmentWidth, finalY: 0, delay: randomDelay ? 0.1 : 0.0 }, // Top-right, slight delay
+    { finalX: 0, finalY: segmentHeight, delay: randomDelay ? 0.2 : 0.0 }, // Bottom-left, more delay
+    { finalX: segmentWidth, finalY: segmentHeight, delay: randomDelay ? 0.3 : 0.0 }, // Bottom-right, maximum delay
   ];
 
-  // Determine translation direction for exiting children
-  const getExitTranslate = (finalX: number, finalY: number) => {
+  const getExitTranslate = (
+    direction:
+      | 'up'
+      | 'down'
+      | 'left'
+      | 'right'
+      | 'diagonal'
+      | 'inverse-diagonal'
+      | 'inverse-diagonal-down',
+    finalX: number,
+    finalY: number
+  ) => {
     switch (direction) {
       case 'up':
         return { translateX: finalX, translateY: -height };
@@ -46,6 +65,8 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
         return { translateX: width, translateY: height };
       case 'inverse-diagonal':
         return { translateX: -width, translateY: height };
+      case 'inverse-diagonal-down':
+        return { translateX: width, translateY: -height };
       default:
         return { translateX: finalX, translateY: finalY };
     }
@@ -57,7 +78,7 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
   // Memoize styles to avoid re-computation
   const style = useMemo(() => {
     return {
-      width: width, // Ensure full content fills the slice
+      width: width,
       height: height,
     };
   }, []);
@@ -100,6 +121,12 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
         mirrorY = height + y;
         scale = 'scale(-1, -1)';
         break;
+
+      case 'inverse-diagonal-down':
+        mirrorX = width + x;
+        mirrorY = -height + y;
+        scale = 'scale(-1, -1)';
+        break;
       default:
         mirrorX = -width + x;
         mirrorY = y;
@@ -134,9 +161,10 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
     <AbsoluteFill>
       {gridSlices.map((slice, index) => {
         const { finalX, finalY, delay } = slice;
+        const direction = directions[index] || 'up'; // Use provided direction or default to 'up'
 
-        // Compute exiting animation
         const { translateX: exitTranslateX, translateY: exitTranslateY } = getExitTranslate(
+          direction,
           finalX,
           finalY
         );
@@ -165,47 +193,52 @@ const SplitPresentation: React.FC<TransitionPresentationComponentProps<SplitTran
         );
 
         return (
-          <React.Fragment key={index}>
-            {/* Main content */}
-            <div
-              style={{
-                width: segmentWidth,
-                height: segmentHeight,
-                overflow: 'hidden',
-                position: 'absolute',
-                left: finalX,
-                top: finalY,
-              }}
-            >
-              {exitingChildren || enteringChildren ? (
-                <div
-                  style={{
-                    ...style,
-                    transform: `translate(${-translateX}px, ${-translateY}px)`,
-                  }}
-                >
-                  {children}
-                </div>
-              ) : null}
-              {/* Mirrored content */}
-              {exitingChildren && renderMirrors(direction, -translateX, -translateY)}
-              {direction === 'diagonal' &&
-                exitingChildren &&
-                renderMirrors('down', -translateX, -translateY)}
+          <div
+            key={index}
+            style={{
+              width: segmentWidth,
+              height: segmentHeight,
+              overflow: 'hidden',
+              position: 'absolute',
+              left: finalX,
+              top: finalY,
+            }}
+          >
+            {(exitingChildren || enteringChildren) && (
+              <div
+                style={{
+                  ...style,
+                  transform: `translate(${-translateX}px, ${-translateY}px)`,
+                }}
+              >
+                {children}
+              </div>
+            )}
+            {exitingChildren && renderMirrors(direction, -translateX, -translateY)}
+            {direction === 'diagonal' &&
+              exitingChildren &&
+              renderMirrors('down', -translateX, -translateY)}
 
-              {direction === 'diagonal' &&
-                exitingChildren &&
-                renderMirrors('right', -translateX, -translateY)}
+            {direction === 'diagonal' &&
+              exitingChildren &&
+              renderMirrors('right', -translateX, -translateY)}
 
-              {direction === 'inverse-diagonal' &&
-                exitingChildren &&
-                renderMirrors('down', -translateX, -translateY)}
+            {direction === 'inverse-diagonal' &&
+              exitingChildren &&
+              renderMirrors('down', -translateX, -translateY)}
 
-              {direction === 'inverse-diagonal' &&
-                exitingChildren &&
-                renderMirrors('left', -translateX, -translateY)}
-            </div>
-          </React.Fragment>
+            {direction === 'inverse-diagonal' &&
+              exitingChildren &&
+              renderMirrors('left', -translateX, -translateY)}
+
+            {direction === 'inverse-diagonal-down' &&
+              exitingChildren &&
+              renderMirrors('up', -translateX, -translateY)}
+
+            {direction === 'inverse-diagonal-down' &&
+              exitingChildren &&
+              renderMirrors('right', -translateX, -translateY)}
+          </div>
         );
       })}
     </AbsoluteFill>

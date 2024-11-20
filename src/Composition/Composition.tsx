@@ -83,35 +83,52 @@ const Main: React.FC<MainProps> = ({
             <Scene1 {...scene1Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({ direction: 'diagonal' })}
+            presentation={customSplitTransition({
+              directions: ['diagonal', 'diagonal', 'diagonal', 'diagonal'],
+            })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene2Duration}>
             <Scene2 {...scene2Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({ direction: 'inverse-diagonal' })}
+            presentation={customSplitTransition({
+              directions: [
+                'inverse-diagonal',
+                'inverse-diagonal-down',
+                'inverse-diagonal-down',
+                'inverse-diagonal',
+              ],
+              randomDelay: false,
+            })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene3Duration}>
             <Scene3 {...scene3Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({ direction: 'diagonal' })}
+            presentation={customSplitTransition({
+              directions: ['diagonal', 'diagonal', 'diagonal', 'diagonal'],
+            })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene4Duration}>
             <Scene4 {...scene4Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({ direction: 'down' })}
+            presentation={customSplitTransition({
+              directions: ['up', 'down', 'down', 'up'],
+              randomDelay: false,
+            })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene5Duration}>
             <Scene5 {...scene5Props} background={background} />
           </TransitionSeries.Sequence>
           <TransitionSeries.Transition
-            presentation={customSplitTransition({ direction: 'left' })}
+            presentation={customSplitTransition({
+              directions: ['left', 'left', 'left', 'left'],
+            })}
             timing={linearTiming({ durationInFrames: transitionDuration })}
           />
           <TransitionSeries.Sequence durationInFrames={scene6Duration}>
