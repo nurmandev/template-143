@@ -47,9 +47,10 @@ const Scene5: React.FC<Scene5Props> = (props) => {
         img={props.img}
         x={WIDTH * 0.3}
         y={HEIGHT * 0.4}
-        direction="top"
+        startX={WIDTH * 0.3 - HEIGHT * 0.325}
+        startY={-HEIGHT * 0.6}
         size={HEIGHT * 0.65}
-        delay={5}
+        delay={18}
         imageY={-HEIGHT * 0.2}
         // imageX={-WIDTH * 0.2}
       />
@@ -57,11 +58,19 @@ const Scene5: React.FC<Scene5Props> = (props) => {
       <DiamondImage
         x={WIDTH * 0.6}
         y={-HEIGHT * 0.05}
-        direction="top"
+        startX={WIDTH * 0.6 - HEIGHT * 0.25}
+        startY={-HEIGHT * 0.65}
         size={HEIGHT * 0.5}
-        delay={5}
+        delay={18}
       />
-      <DiamondImage x={0} y={HEIGHT * 0.9} direction="bottom" size={HEIGHT * 0.6} delay={5} />
+      <DiamondImage
+        x={0}
+        y={HEIGHT * 0.9}
+        startX={-HEIGHT * 0.65}
+        startY={HEIGHT * 0.5}
+        size={HEIGHT * 0.6}
+        delay={20}
+      />
       <DiamondScaleUp x={WIDTH * 0.5} y={HEIGHT * 0.95} size={250} delay={15} />
       <DiamondScaleUp x={WIDTH * 0.93} y={HEIGHT * 0.95} size={400} delay={15} />
 

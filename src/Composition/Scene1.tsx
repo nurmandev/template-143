@@ -49,25 +49,28 @@ const Scene1: React.FC<Scene1Props> = (props) => {
       <DiamondImage
         x={WIDTH * 0.5}
         y={HEIGHT * 0.5}
-        direction="bottom"
+        startX={WIDTH * 0.25}
+        startY={HEIGHT * 1.12}
         size={HEIGHT * 0.8}
         delay={5}
         opacity={0.6}
       />
       <DiamondImage
-        x={WIDTH * 0.9}
-        y={HEIGHT * 0.2}
-        direction="bottom"
+        x={WIDTH * 0.85}
+        y={HEIGHT * 0.1}
+        startX={WIDTH * 1.12}
+        startY={HEIGHT * 0.5}
         size={HEIGHT * 0.5}
-        delay={5}
+        delay={20}
         opacity={0.6}
       />
       <DiamondImage
         x={WIDTH * 0.1}
         y={HEIGHT * 0.8}
-        direction="top"
+        startX={-HEIGHT * 0.6}
+        startY={HEIGHT * 0.1}
         size={HEIGHT * 0.5}
-        delay={5}
+        delay={18}
         opacity={0.6}
       />
 

@@ -20,11 +20,11 @@ const Scene6: React.FC<Scene6Props> = (props) => {
   // we make the text conform to available width, fontFamily, fontWeight, and fontSize and add \n to the text
   const titleSplit = useTextSplitter({
     text: props.title.toUpperCase(),
-    fontSize: 60,
+    fontSize: 50,
     fontWeight: '500',
     letterSpacing: '6px',
     maxLines: 1,
-    maxWidth: 800,
+    maxWidth: 850,
   });
   const subtitleSplit = useTextSplitter({
     text: props.subtitle.toUpperCase(),
@@ -57,25 +57,28 @@ const Scene6: React.FC<Scene6Props> = (props) => {
       <DiamondImage
         x={WIDTH * 0.5}
         y={HEIGHT * 0.5}
-        direction="bottom"
+        startX={WIDTH * 0.25}
+        startY={HEIGHT * 1.12}
         size={HEIGHT * 0.8}
-        delay={5}
+        delay={18}
         opacity={0.6}
       />
       <DiamondImage
-        x={WIDTH * 0.9}
-        y={HEIGHT * 0.2}
-        direction="top"
+        x={WIDTH * 0.85}
+        y={HEIGHT * 0.1}
+        startX={WIDTH * 1.12}
+        startY={HEIGHT * 0.5}
         size={HEIGHT * 0.5}
-        delay={20}
+        delay={25}
         opacity={0.6}
       />
       <DiamondImage
         x={WIDTH * 0.1}
         y={HEIGHT * 0.8}
-        direction="bottom"
+        startX={-HEIGHT * 0.6}
+        startY={HEIGHT * 0.1}
         size={HEIGHT * 0.5}
-        delay={20}
+        delay={30}
         opacity={0.6}
       />
       <DiamondScaleUp x={WIDTH * 0.29} y={HEIGHT * 0.05} size={200} delay={15} opacity={0.6} />

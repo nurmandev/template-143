@@ -47,14 +47,22 @@ const Scene3: React.FC<Scene3Props> = (props) => {
         img={props.img}
         x={WIDTH * 0.1}
         y={HEIGHT * 0.5}
-        direction="left"
+        startX={-WIDTH * 0.55}
+        startY={HEIGHT * 0.1}
         size={HEIGHT * 0.85}
-        delay={20}
+        delay={17}
         imageY={-HEIGHT * 0.2}
-        // imageX={-WIDTH * 0.1}
+        imageX={WIDTH * 0.1}
       />
 
-      <DiamondImage x={WIDTH * 0.55} y={0} direction="top" size={HEIGHT * 0.5} delay={20} />
+      <DiamondImage
+        x={WIDTH * 0.55}
+        y={0}
+        startX={WIDTH * 0.55 - HEIGHT * 0.25}
+        startY={-HEIGHT * 0.6}
+        size={HEIGHT * 0.5}
+        delay={20}
+      />
       <DiamondScaleUp x={WIDTH * 0.95} y={HEIGHT * 0.05} size={200} delay={20} />
       <DiamondScaleUp x={WIDTH * 0.35} y={HEIGHT * 0.95} size={300} delay={20} />
       <DiamondScaleUp x={WIDTH * 0.99} y={HEIGHT * 0.5} size={150} delay={20} />

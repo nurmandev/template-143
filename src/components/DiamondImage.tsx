@@ -3,22 +3,24 @@ import { useCurrentFrame, interpolate } from 'remotion';
 
 interface DiamondImageProps {
   img?: string;
+  startX: number; // Starting horizontal position
+  startY: number; // Starting vertical position
   x: number; // Final horizontal position
   y: number; // Final vertical position
-  direction?: 'top' | 'bottom' | 'left' | 'right'; // Direction to animate from
   size?: number; // Size of the diamond
   delay?: number; // Delay for animation
-  opacity?: number;
-  mirror?: boolean;
-  imageY?: number;
-  imageX?: number;
+  opacity?: number; // Opacity of the diamond
+  mirror?: boolean; // Whether the image should be mirrored horizontally
+  imageY?: number; // Offset for the image inside the diamond (vertical)
+  imageX?: number; // Offset for the image inside the diamond (horizontal)
 }
 
 const DiamondImage: React.FC<DiamondImageProps> = ({
   img,
+  startX,
+  startY,
   x,
   y,
-  direction = 'top',
   size = 200,
   delay = 0,
   opacity = 1,
@@ -28,57 +30,34 @@ const DiamondImage: React.FC<DiamondImageProps> = ({
 }) => {
   const frame = useCurrentFrame();
 
-  // Set initial off-screen position based on the direction
-  let initialX = 0;
-  let initialY = 0;
-
-  switch (direction) {
-    case 'top':
-      initialY = -size;
-      initialX = x - size / 2;
-      break;
-    case 'bottom':
-      initialY = size * 2;
-      initialX = x - size / 2;
-      break;
-    case 'left':
-      initialY = y - size / 2;
-      initialX = -size;
-      break;
-    case 'right':
-      initialX = size * 2;
-      initialY = y - size / 2;
-      break;
-  }
-
-  // Interpolate the movement linearly from the initial position to the target position
-  const translateX = interpolate(frame - delay, [0, 40], [initialX, x - size / 2], {
+  // Interpolate the movement linearly from the starting position to the target position
+  const translateX = interpolate(frame - delay, [0, 30], [startX, x - size / 2], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
-  const translateY = interpolate(frame - delay, [0, 40], [initialY, y - size / 2], {
+  const translateY = interpolate(frame - delay, [0, 30], [startY, y - size / 2], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
 
+  // Interpolate image position for vertical movement
   const translateYImage = interpolate(frame - delay, [0, 40], [-100, 0], {
     extrapolateLeft: 'clamp',
     extrapolateRight: 'clamp',
   });
+
   return (
     <div
       style={{
         width: size,
         height: size,
         backgroundColor: img ? 'transparent' : '#0b42b8', // Default background color
-        // backgroundImage: img ? `url(${img})` : undefined, // Apply the image if provided
         backgroundSize: 'cover',
         borderRadius: '15%',
         position: 'absolute',
         top: translateY, // Move according to the linear interpolation
         left: translateX, // Move according to the linear interpolation
         transform: 'rotate(45deg)', // Diamond shape rotation
-        transition: 'transform 0.5s ease',
         opacity,
         overflow: 'hidden',
       }}
@@ -88,7 +67,7 @@ const DiamondImage: React.FC<DiamondImageProps> = ({
           style={{
             width: '150%',
             height: '150%',
-            transform: `rotate(-45deg) translate(${imageX}px,${imageY}px) scaleX(${mirror ? '-1' : '1'})`,
+            transform: `rotate(-45deg) translate(${imageX}px, ${imageY}px) scaleX(${mirror ? '-1' : '1'})`,
           }}
         >
           <img
@@ -97,11 +76,10 @@ const DiamondImage: React.FC<DiamondImageProps> = ({
             style={{
               position: 'absolute',
               top: translateYImage,
-              left: 0,
-              width: '100%',
-              height: '100%',
+              width: '90%',
+              height: '90%',
               objectFit: 'cover',
-              objectPosition: 'left top',
+              // objectPosition: 'left top',
             }}
           />
         </div>

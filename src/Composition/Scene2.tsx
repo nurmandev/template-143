@@ -47,14 +47,23 @@ const Scene2: React.FC<Scene2Props> = (props) => {
         img={props.img}
         x={WIDTH * 0.89}
         y={HEIGHT * 0.5}
-        direction="right"
+        startX={WIDTH}
+        startY={HEIGHT * 0.2}
         size={HEIGHT * 0.85}
-        delay={18}
+        delay={17}
         mirror
-        imageY={-HEIGHT * 0.4}
+        imageX={-HEIGHT * 0.15}
+        imageY={-HEIGHT * 0.2}
       />
 
-      <DiamondImage x={WIDTH * 0.1} y={0} direction="top" size={HEIGHT * 0.5} delay={20} />
+      <DiamondImage
+        x={WIDTH * 0.1}
+        y={0}
+        startX={WIDTH * 0.1 - HEIGHT * 0.25}
+        startY={-HEIGHT * 0.6}
+        size={HEIGHT * 0.5}
+        delay={20}
+      />
       <DiamondScaleUp x={WIDTH * 0.6} y={HEIGHT * 0.05} size={200} delay={20} />
       <DiamondScaleUp x={WIDTH * 0.65} y={HEIGHT * 0.95} size={300} delay={20} />
       <DiamondScaleUp x={WIDTH * 0.03} y={HEIGHT * 1.02} size={200} delay={20} />
